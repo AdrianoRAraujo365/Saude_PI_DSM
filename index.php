@@ -1,6 +1,18 @@
 <?php
 session_start();
-include("php/config/conexao.php");
+
+// Define o caminho absoluto para o arquivo de conexão
+$caminhoConexao = __DIR__ . "/php/config/conexao.php";
+
+// Verifica se o arquivo de conexão existe antes de tentar incluí-lo
+if (file_exists($caminhoConexao)) {
+    require_once($caminhoConexao);
+} else {
+    // Se o arquivo não existir, redireciona para o login ou exibe um erro controlado
+    // evitando que os Warnings do PHP quebrem o redirecionamento posterior.
+    header("Location: login.html?erro=config_nao_encontrada");
+    exit;
+}
 
 $logado = isset($_SESSION['idLogin']);
 
@@ -79,23 +91,19 @@ if (!empty($fotoBanco) && file_exists("uploads/" . $fotoBanco)) {
         });
     </script>
 
-    <!-- Favicon -->
     <link rel="shortcut icon" href="icon/icon_BemEstar360.ico">
 
-    <!-- CSS externo -->
     <link rel="stylesheet" href="Css/estilo.css">
 
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=arrow_forward" />
 
-    <!-- Bootstrap -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 
 <body>
-    <!-- Header -->
     <header class="TopoSite">
         <div class="Logo">
             <img class="ImgLogo" src="Img/bemEstar.webp" alt="Logo Bem Estar 360">
@@ -123,7 +131,6 @@ if (!empty($fotoBanco) && file_exists("uploads/" . $fotoBanco)) {
                     <li><a href="./login.html" data-lang="login">Login</a></li>
                 <?php endif; ?>
 
-                <!-- Menu de Configurações -->
                 <li class="config-menu">
                     <button id="config-btn" aria-haspopup="true" aria-expanded="false">⚙️</button>
 
@@ -192,7 +199,7 @@ if (!empty($fotoBanco) && file_exists("uploads/" . $fotoBanco)) {
                         contínuos</h2>
                     <p data-lang="newsTextDiabetes">
                         O diabetes é uma doença crônica que exige atenção diária à alimentação, atividade física e
-                        controle médico. O diagnóstico precoce é essencial para evitar complicações graves.
+                        controle médico. O diagnosis precoce é essencial para evitar complicações graves.
                     </p>
                     <button class="card-button material-symbols-outlined" data-lang="newsBtn"
                         onclick="window.location.href='diabetes.html'">arrow_forward</button>
@@ -274,7 +281,6 @@ if (!empty($fotoBanco) && file_exists("uploads/" . $fotoBanco)) {
         </div>
     </section>
 
-    <!-- Cards -->
     <section class="grid-cards">
         <div class="card">
             <a href="./pressao.php">
@@ -414,66 +420,3 @@ if (!empty($fotoBanco) && file_exists("uploads/" . $fotoBanco)) {
 
                 <li class="ubs-card">
                     <div class="ubs-image-wrapper">
-                        <img src="./Img/UBS_CidadeLider.png" alt="UBS Vila Nova" class="ubs-image">
-                    </div>
-                    <div class="ubs-content">
-                        <h3 class="ubs-name">UBS Cidade Líder</h3>
-                        <p class="ubs-description" data-lang="ubsDesc6">
-                            Localizada na Av. Dr. Francisco Munhoz Filho, 379, oferece atendimento clínico, vacinação e
-                            exames de rotina.
-                        </p>
-                        <button onclick="abrirNoMaps(-23.554291369235724, -46.46517399124749)" class="ubs-button"
-                            data-lang="textVerRota">
-                            Ver rota
-                        </button>
-                    </div>
-                </li>
-            </ul>
-            <script src="scriptLocalizacao.js"></script>
-        </div>
-    </section>
-
-
-    <br><br>
-
-    <!-- Rodapé -->
-    <footer class="footer">
-        <div class="footerContainer">
-            <!-- Logo e nome -->
-            <div class="footerBrand">
-                <img src="Img/2.png" alt="Bem Estar 360" class="footerLogo">
-
-            </div>
-
-            <div class="footerLinks">
-                <ul>
-                    <li><a href="./index.html" data-lang="footerHome">Home</a></li>
-                    <li><a href="./monitoramento.html" data-lang="footerMonitoring">Monitoramento</a></li>
-                    <li><a href="./servicos.html" data-lang="footerServices">Serviços</a></li>
-                    <li><a href="./quemSomos.html" data-lang="about">Quem somos</a></li>
-                </ul>
-            </div>
-
-            <!-- Contato -->
-            <div class="footerContato">
-                <h4 data-lang="footerContactTitle">Contato</h4>
-                <p data-lang="footerEmail">Email: contato@bemestar360.com</p>
-                <p data-lang="footerPhone">Telefone: (11) 1234-5678</p>
-                <div class="footerSocials">
-                    <a href="#"><img src="./Img/face_icon.png" alt="Facebook"></a>
-                    <a href="#"><img src="./Img/insta_icon.webp" alt="Instagram"></a>
-                    <a href="#"><img src="./Img/X_icon.svg.png" alt="Twitter"></a>
-                </div>
-            </div>
-        </div>
-
-        <!-- Copyright -->
-        <div class="footerBottom">
-            <p data-lang="footerCopy" data-lang="textFooter">&copy; 2025 Bem-Estar 360. Todos os direitos reservados.
-            </p>
-        </div>
-    </footer>
-
-</body>
-
-</html>
